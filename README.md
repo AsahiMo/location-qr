@@ -10,15 +10,3 @@
 - QRコード生成は [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) を `qrcode.min.js` としてローカルに同梱しており、外部CDNへの依存はありません。
 - ビルド不要の静的ファイル(`index.html` / `style.css` / `app.js` / `qrcode.min.js`)のみで構成されています。
 
-## GitHub Pagesで公開する
-
-1. このフォルダの内容をGitHubリポジトリにpushします。
-2. リポジトリの Settings → Pages を開きます。
-3. "Source" を対象ブランチ(例: `main`)のルートに設定します。
-4. 発行されたURL(`https://<ユーザー名>.github.io/<リポジトリ名>/`)にアクセスします。
-
-位置情報APIはHTTPS(またはlocalhost)でのみ動作するため、GitHub Pagesの発行URLで利用してください。
-
-## ローカルで試す
-
-`index.html` を直接ブラウザで開くだけでも動作しますが、ブラウザによっては `file://` 経由だと位置情報の許可ダイアログが出ない場合があります。その場合は簡易サーバーを立てて `http://localhost/` 経由で開いてください。
