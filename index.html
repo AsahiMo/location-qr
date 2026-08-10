@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>現在地 QRコード生成</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <h1>現在地QRコード生成</h1>
+    <p class="lead">現在地のGoogleマップリンクをQRコードにして、説明文つきの画像としてダウンロードできます。</p>
+
+    <section class="location-section">
+      <div class="status" id="status">位置情報を取得中...</div>
+
+      <div class="coords" id="coords" hidden>
+        <div><span class="label">緯度</span><span id="lat"></span></div>
+        <div><span class="label">経度</span><span id="lng"></span></div>
+      </div>
+
+      <a id="mapsLink" class="maps-link" href="#" target="_blank" rel="noopener" hidden>Googleマップで開く</a>
+
+      <button id="retryBtn" hidden>位置情報を再取得</button>
+
+      <div class="manual-fallback" id="manualFallback" hidden>
+        <p>位置情報が取得できませんでした。緯度・経度を手入力してください。</p>
+        <label>緯度 <input type="number" id="manualLat" step="any" placeholder="35.6812"></label>
+        <label>経度 <input type="number" id="manualLng" step="any" placeholder="139.7671"></label>
+        <button id="manualApplyBtn">この座標を使う</button>
+      </div>
+    </section>
+
+    <section class="description-section">
+      <label for="description">場所の説明</label>
+      <textarea id="description" rows="3" placeholder="例: 会社の正面玄関前、青い看板の下"></textarea>
+    </section>
+
+    <button id="generateBtn" disabled>QRコードを生成</button>
+
+    <section class="preview-section" id="previewSection" hidden>
+      <canvas id="qrCanvas"></canvas>
+      <button id="downloadBtn">画像をダウンロード</button>
+    </section>
+  </main>
+
+  <script src="qrcode.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
