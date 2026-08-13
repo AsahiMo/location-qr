@@ -48,7 +48,7 @@ async function prefillDescriptionFromAddress(lat, lng) {
     const district = a.city_district || a.suburb || a.neighbourhood || '';
     const partial = [a.state, area, district].filter(Boolean).join('');
     if (partial && descriptionEl.value.trim() === '') {
-      descriptionEl.value = `${partial}まで`;
+      descriptionEl.value = partial;
     }
   } catch {
     // 住所取得に失敗しても説明欄は空のままでよい
@@ -132,8 +132,8 @@ async function generateQr() {
   }
 
   const padding = 24;
-  const font = '16px sans-serif';
-  const lineHeight = 22;
+  const font = '22px sans-serif';
+  const lineHeight = 30;
   const measureCtx = qrCanvas.getContext('2d');
   measureCtx.font = font;
 
