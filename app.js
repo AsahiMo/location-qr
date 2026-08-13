@@ -32,6 +32,27 @@ function setLocation(lat, lng) {
   manualFallback.hidden = true;
   generateBtn.disabled = false;
   previewSection.hidden = true;
+  prefillDescriptionFromAddress(lat, lng);
+}
+
+async function prefillDescriptionFromAddress(lat, lng) {
+  if (descriptionEl.value.trim() !== '') return;
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=14&addressdetails=1&accept-language=ja`
+    );
+    if (!res.ok) return;
+    const data = await res.json();
+    const a = data.address || {};
+    const area = a.city || a.town || a.village || a.county || '';
+    const district = a.city_district || a.suburb || a.neighbourhood || '';
+    const partial = [a.state, area, district].filter(Boolean).join('');
+    if (partial && descriptionEl.value.trim() === '') {
+      descriptionEl.value = `${partial}まで`;
+    }
+  } catch {
+    // 住所取得に失敗しても説明欄は空のままでよい
+  }
 }
 
 function requestLocation() {
@@ -118,14 +139,10 @@ async function generateQr() {
 
   const textMaxWidth = qrSize;
   const descLines = description ? wrapText(measureCtx, description, textMaxWidth) : [];
-  const linkLines = wrapText(measureCtx, mapsUrl, textMaxWidth);
-
-  const textBlockHeight =
-    (descLines.length ? descLines.length * lineHeight + 10 : 0) +
-    linkLines.length * lineHeight;
+  const textBlockHeight = descLines.length ? descLines.length * lineHeight : 0;
 
   qrCanvas.width = qrSize + padding * 2;
-  qrCanvas.height = qrSize + padding * 2 + textBlockHeight + padding;
+  qrCanvas.height = qrSize + padding * 2 + textBlockHeight + (descLines.length ? padding : 0);
 
   const ctx = qrCanvas.getContext('2d');
   ctx.fillStyle = '#ffffff';
@@ -138,13 +155,6 @@ async function generateQr() {
 
   let y = padding + qrSize + padding;
   for (const line of descLines) {
-    ctx.fillText(line, padding, y);
-    y += lineHeight;
-  }
-  if (descLines.length) y += 10;
-
-  ctx.fillStyle = '#1a73e8';
-  for (const line of linkLines) {
     ctx.fillText(line, padding, y);
     y += lineHeight;
   }
