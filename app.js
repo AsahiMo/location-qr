@@ -152,10 +152,12 @@ async function generateQr() {
   ctx.fillStyle = '#1c1e21';
   ctx.font = font;
   ctx.textBaseline = 'top';
+  ctx.textAlign = 'center';
 
+  const centerX = qrCanvas.width / 2;
   let y = padding + qrSize + padding;
   for (const line of descLines) {
-    ctx.fillText(line, padding, y);
+    ctx.fillText(line, centerX, y);
     y += lineHeight;
   }
 
