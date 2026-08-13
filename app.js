@@ -44,10 +44,9 @@ async function prefillDescriptionFromAddress(lat, lng) {
     if (!res.ok) return;
     const data = await res.json();
     const a = data.address || {};
-    const prefecture = a.state || a.province || '';
     const area = a.city || a.town || a.village || a.county || '';
     const district = a.city_district || a.suburb || a.neighbourhood || a.quarter || '';
-    const partial = [prefecture, area, district].filter(Boolean).join('');
+    const partial = [area, district].filter(Boolean).join('');
     if (partial && descriptionEl.value.trim() === '') {
       descriptionEl.value = partial;
     }
